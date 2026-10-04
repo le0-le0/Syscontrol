@@ -383,18 +383,32 @@ def get_user_state(uid):
 @authorize_required
 def shell_input(message):
     uid = message.from_user.id
+    chat_id = message.chat.id
     cmd = message.text.strip()
     if cmd.lower() == "exit":
         user_states[uid] = STATE_NORMAL
-        bot.send_message(uid, "Exited shell mode.")
+        bot.send_message(chat_id, "Exited shell mode.")
         return
-    try:
-        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = proc.communicate(timeout=30)
-        text = (out or b"").decode(errors="ignore") + (err or b"").decode(errors="ignore")
-        send_long_message(uid, text or "[No output]")
-    except Exception as e:
-        bot.send_message(uid, f"Error: {e}")
+
+    def run_cmd():
+        try:
+            proc = subprocess.Popen(
+                cmd, shell=True,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            try:
+                out, err = proc.communicate(timeout=30)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                out, err = proc.communicate()
+                bot.send_message(chat_id, "⚠️ Command timed out after 30s.")
+                return
+            text = (out or b"").decode(errors="ignore") + (err or b"").decode(errors="ignore")
+            send_long_message(chat_id, text or "[No output]")
+        except Exception as e:
+            bot.send_message(chat_id, f"Error: {e}")
+
+    threading.Thread(target=run_cmd, daemon=True).start()
 
 
 # ==============================
