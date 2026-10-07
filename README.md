@@ -1,13 +1,31 @@
 ## 🚀 Installation
 
-### 1. Clone the repository (or download the ZIP)
+## 🧰 Optional: Install Prerequisites via Winget (Windows)
+
+```powershell
+winget install --id Git.Git -e --source winget
+winget install --id Python.Python.3.12 -e --source winget
+```
+
+If PowerShell blocks scripts, allow local scripts for your user:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+
+
+```
+
+
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Syscontrol.git
+git clone https://github.com/le0-le0/Syscontrol.git
 cd Syscontrol
 ```
 
-### 2. Create and activate a virtual environment
 
 **🪟 Windows (Command Prompt):**
 
@@ -26,6 +44,8 @@ python -m venv .venv
 ### 3. Install the required libraries
 
 ```bash
+
+Rename-Item -Path "env.txt" -NewName ".env" -Force
 pip install -r requirements.txt
 ```
 
@@ -92,22 +112,3 @@ Copy `rat_wifi_venv_bot.vbs` and paste it into your Windows Startup folder:
 > You can also open it quickly: press **Win + R**, type `shell:startup`, and press **Enter**.
 
 The bot will now launch silently in the background every time you log in.
-
----
-
-## 🧰 Optional: Install Prerequisites via Winget (Windows)
-
-```powershell
-winget install --id Git.Git -e --source winget
-winget install --id Python.Python.3.12 -e --source winget
-```
-
-If PowerShell blocks scripts, allow local scripts for your user:
-
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
-Rename-Item -Path "env.txt" -NewName ".env" -Force
-
-```
