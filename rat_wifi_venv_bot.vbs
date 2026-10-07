@@ -18,7 +18,7 @@ Do
     If connected Then
         If pythonProcessID = 0 Then
             ' Run pythonw directly from venv's python.exe in hidden mode
-            cmd = """D:\Code\Syscontrol\.venv\Scripts\pythonw.exe"" ""D:\Code\Syscontrol\syscontrol_bot.py"""
+            cmd = """C:\Users\Airbuddy\Syscontrol\.venv\Scripts\pythonw.exe"" ""C:\Users\Airbuddy\Syscontrol\syscontrol_bot.py"""
             objShell.Run cmd, 0, False
             pythonProcessID = -1 ' mark as running
         End If
